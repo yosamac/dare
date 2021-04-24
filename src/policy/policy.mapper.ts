@@ -1,4 +1,4 @@
-import { PolicyDTO } from './dto/policy.dto';
+import { PolicyDTO } from '../common/dtos/policy.dto';
 
 export function toPolicyDTO(data: any): PolicyDTO {
   return {

@@ -1,7 +1,8 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 
 import { QueryParamDTO } from './dto/request/queryParam.dto';
-import { ClientDTO, PolicyDTO } from './dto/client.dto';
+import { ClientDTO } from './dto/client.dto';
+import { PolicyDTO } from '../common/dtos/policy.dto';
 import { ServiceLogger } from '../logger/logger.service';
 import { InsuranceService } from '../apis/insurance';
 import { handleError } from '../common/helper';
@@ -67,9 +68,9 @@ export class ClientService {
     }
 
     getPoliciesByClientId(id: string): Promise<PolicyDTO[]> {
+        this.logger.info(`Getting policies for: ${id}`);
         return this.getClientById(id).then(res => res.policies);
     }
-
 
     private getPoliciesByEmail(email: string): Promise<any> {
 

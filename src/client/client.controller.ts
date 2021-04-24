@@ -14,7 +14,7 @@ import {
     ServiceHttpResponse,
     HttpExceptionFilter,
 } from '../common/exception.filter';
-import { PolicyDTO } from './dto/client.dto';
+import { PolicyDTO } from '../common/dtos/policy.dto';
 
 @Controller('/clients')
 @ApiTags('Clients')

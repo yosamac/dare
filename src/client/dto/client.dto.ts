@@ -1,21 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ClientIdDTO } from './request/ClientId.dto';
+import { IdDTO } from '../../common/dtos/id.dto';
+import { PolicyDTO } from '../../common/dtos/policy.dto';
 
-
-export class PolicyDTO {
-    @ApiProperty()
-    id: string;
-    @ApiProperty()
-    amountInsured: string;
-    @ApiProperty()
-    email?: string;
-    @ApiProperty()
-    inceptionDate: string;
-    @ApiProperty()
-    installmentPayment?: boolean;
-}
-
-export class ClientDTO extends ClientIdDTO{
+export class ClientDTO extends IdDTO{
     @ApiProperty()
     name: string;
     @ApiProperty()

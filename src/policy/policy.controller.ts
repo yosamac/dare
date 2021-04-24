@@ -6,9 +6,9 @@ import {
 import { ApiResponse, ApiTags, } from '@nestjs/swagger';
 
 import { PolicyService } from './policy.service';
-import { PolicyDTO } from './dto/policy.dto';
+import { PolicyDTO } from '../common/dtos/policy.dto';
 import { QueryParamDTO , QueryParamPipe } from './dto/request/queryParam.dto';
-import { PolicyIdDTO, PolicyIdPipe } from './dto/request/policyId.dto';
+import { IdDTO, IdPipe } from '../common/dtos/id.dto';
 
 import {
     ServiceHttpResponse,
@@ -64,7 +64,7 @@ export class PolicyController {
         type: ServiceHttpResponse
     })
     getPolicy(
-        @Param(PolicyIdPipe) param: PolicyIdDTO
+        @Param(IdPipe) param: IdDTO
     ): Promise<PolicyDTO> {
         return this.policyService.getPolicyById(param.id);
     }

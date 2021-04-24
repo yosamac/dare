@@ -42,4 +42,17 @@ export class InsuranceService {
                 ).toPromise().then(res => res.data);
             });
     }
+
+    getAllClients(): Promise<any> {
+
+        return this.login(this.credentials)
+            .then(({ type, token }) => {
+                const authorization = `${type} ${token}`;
+
+                return this.httpService.get(
+                    `${INSURANCE_API_ENDPOINT}/clients`,
+                    { headers: { authorization } }
+                ).toPromise().then(res => res.data);
+            });
+    }
 }

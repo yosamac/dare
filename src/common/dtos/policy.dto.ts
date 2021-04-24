@@ -1,13 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { PolicyIdDTO } from './request/policyId.dto';
+import { IdDTO } from './id.dto';
 
-export class PolicyDTO extends PolicyIdDTO{
+export class PolicyDTO extends IdDTO{
     @ApiProperty()
     amountInsured: string;
     @ApiProperty()
-    email: string;
+    email?: string;
     @ApiProperty()
     inceptionDate: string;
     @ApiProperty()
-    installmentPayment: true;
+    installmentPayment?: true;
 }

@@ -1,9 +1,10 @@
-import { ClientDTO, PolicyDTO } from './dto/client.dto';
+import { ClientDTO } from './dto/client.dto';
+import { PolicyDTO } from '../common/dtos/policy.dto';
 
 
 export function toPolicyDTO(data: any): PolicyDTO {
   return {
-    id: data.id,
+    id: data?.id,
     amountInsured: data?.amountInsured,
     inceptionDate: data?.inceptionDate,
     installmentPayment: data?.installmentPayment,

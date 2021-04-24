@@ -1,7 +1,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 
 import { QueryParamDTO } from './dto/request/queryParam.dto';
-import { PolicyDTO } from './dto/policy.dto';
+import { PolicyDTO } from '../common/dtos/policy.dto';
 import { ServiceLogger } from '../logger/logger.service';
 import { InsuranceService } from '../apis/insurance';
 import { handleError } from '../common/helper';
