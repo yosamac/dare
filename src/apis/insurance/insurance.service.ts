@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 
 import { INSURANCE_API_ENDPOINT } from './insurance.constant';
 import { OAuthDTO } from '../insurance/dtos/oauth.dto';
-import { ServiceLogger } from 'src/logger/logger.service';
 
 @Injectable()
 export class InsuranceService {
@@ -11,10 +10,8 @@ export class InsuranceService {
 
     constructor(
         private readonly httpService: HttpService,
-        private readonly logger: ServiceLogger,
         private readonly config: ConfigService
     ) {
-        logger.setContext(this.constructor.name);
         this.credentials = {
             // eslint-disable-next-line @typescript-eslint/camelcase
             client_id: config.get<string>('apis.insurance.clientId'),

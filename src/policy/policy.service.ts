@@ -6,7 +6,7 @@ import { ServiceLogger } from '../logger/logger.service';
 import { InsuranceService } from '../apis/insurance';
 import { handleError } from '../common/helper';
 import { toPolicyListDTO, toPolicyDTO } from './policy.mapper';
-import { ServiceException } from 'src/common/service.exception';
+import { ServiceException } from '../common/service.exception';
 
 const FIRST_ITEM = 0;
 const LIMIT = 10;

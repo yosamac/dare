@@ -7,7 +7,7 @@ import { ServiceLogger } from '../logger/logger.service';
 import { InsuranceService } from '../apis/insurance';
 import { handleError } from '../common/helper';
 import { toClientListDTO, toClientDTO } from './client.mapper';
-import { ServiceException } from 'src/common/service.exception';
+import { ServiceException } from '../common/service.exception';
 
 const FIRST_ITEM = 0;
 const LIMIT = 10;
