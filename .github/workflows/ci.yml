@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [ develop ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -25,7 +25,7 @@ jobs:
       run: npm run test:cov
     # - name: Generate release
     #   run: |
-    #     git config --global user.email ci@nerdsletter.com
+    #     git config --global user.email ci@dare.com
     #     git config --global user.name CI
     #     npm run release
     #     git push --follow-tags origin main
