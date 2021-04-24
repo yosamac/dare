@@ -7,4 +7,10 @@ export default () => ({
   logger: {
     level: process.env.LOG_LEVEL || process.env.LOGGING_LEVEL || 'INFO'
   },
+  apis: {
+    insurance: {
+      clientId: process.env.CLIENT_ID || 'dare',
+      clientSecret: process.env.CLIENT_SECRET || 's3cr3t'
+    }
+  }
 });
