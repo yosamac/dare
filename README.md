@@ -93,10 +93,6 @@ npm run build:dev-image
 ```shell
 npm run build:pro-image
 ```
-### Docker compose
-```shell
-docker-compose up nerdsletter
-```
 
 ## CI/CD
 This repo has Continuous Delivery (in process) and Continuous Integration thanks to [github actions](https://github.com/features/actions). Every commit pushed to the `develop` branch start up the jobs.
