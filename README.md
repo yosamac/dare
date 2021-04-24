@@ -102,7 +102,7 @@ docker-compose up nerdsletter
 This repo has Continuous Delivery (in process) and Continuous Integration thanks to [github actions](https://github.com/features/actions). Every commit pushed to the `develop` branch start up the jobs.
 
 ## Docker hub repository
-[Nerdsletter repository](https://hub.docker.com/repository/docker/yosamac/dare)
+[Dare repository](https://hub.docker.com/repository/docker/yosamac/dare)
 
 
 ## License
