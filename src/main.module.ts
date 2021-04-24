@@ -5,6 +5,7 @@ import configuration from './config/configuration';
 import { LoggerModule } from './logger/logger.module';
 import { AuthModule } from './auth/auth.module';
 import { PolicyModule } from './policy/policy.module';
+import { ClientModule } from './client/client.module';
 
 @Module({
     imports: [
@@ -14,7 +15,8 @@ import { PolicyModule } from './policy/policy.module';
         }),
         LoggerModule.forRoot({ isGlobal: true }),
         AuthModule,
-        PolicyModule
+        PolicyModule,
+        ClientModule,
 
     ]
 })
