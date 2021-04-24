@@ -30,7 +30,7 @@ export class InsuranceService {
         ).toPromise().then(res => res.data);
     }
 
-    async getAllPolicies(): Promise<any> {
+    getAllPolicies(): Promise<any> {
 
         return this.login(this.credentials)
             .then(({ type, token }) => {

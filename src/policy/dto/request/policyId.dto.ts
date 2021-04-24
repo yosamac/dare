@@ -5,7 +5,7 @@ import { JoiValidationPipe } from '../../../common/joi.validation.pipe';
 
 export class PolicyIdDTO {
     @ApiProperty()
-    readonly id: string;
+    id: string;
 }
 
 export const PolicyIdSchema = Joi.object({
