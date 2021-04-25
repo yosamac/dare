@@ -26,23 +26,23 @@ export class ClientService {
         this.logger.info('Getting all clients');
 
         return this.insuranceService.getAllClients()
-            .then((clients = []) => {
+            .then(async (clients = []) => {
 
                 if (queryParam.name) {
                     clients = clients.filter(item => item.name == queryParam.name);
                 }
 
-                const promises = clients.map(async item => ({
+                const policies: [] = await this.insuranceService.getAllPolicies()
+                    .catch(err => handleError(this.logger, err));
+
+                const clientsWithPolicies = clients.map(item => ({
                     ...item,
-                    policies: await this.getPoliciesByEmail(item.email)
+                    policies: this.findPoliciesForEmail(item.email, policies)
                 }));
 
-                return Promise.all(promises)
-                    .then(clientsWithPolicies => {
-                        return toClientListDTO(
-                            clientsWithPolicies.slice(FIRST_ITEM, queryParam.limit || LIMIT)
-                        );
-                    });
+                return toClientListDTO(
+                    clientsWithPolicies.slice(FIRST_ITEM, queryParam.limit || LIMIT)
+                );
             })
             .catch(err => handleError(this.logger, err));
     }
@@ -61,7 +61,10 @@ export class ClientService {
                         'Client not found'
                     );
                 }
-                client.policies = await this.getPoliciesByEmail(client.email);
+                const policies: [] = await this.insuranceService.getAllPolicies()
+                    .catch(err => handleError(this.logger, err));
+
+                client.policies = this.findPoliciesForEmail(client.email, policies);
                 return toClientDTO(client);
             })
             .catch(err => handleError(this.logger, err));
@@ -72,17 +75,11 @@ export class ClientService {
         return this.getClientById(id).then(res => res.policies);
     }
 
-    private getPoliciesByEmail(email: string): Promise<any> {
-
-        return this.insuranceService.getAllPolicies()
-            .then((policies = []) => {
-                return policies.map(item => (
-                    item.email == email
-                        ? item
-                        : undefined
-                )).filter(Boolean);
-            });
+    private findPoliciesForEmail(email: string, policies: any[]): any[] {
+        return policies.map(item => (
+            item.email == email
+                ? item
+                : undefined
+        )).filter(Boolean);
     }
-
-
 }
