@@ -5,7 +5,7 @@ import { PolicyController } from './policy.controller';
 import { PolicyService } from './policy.service';
 import { InsuranceModule } from '../apis/insurance';
 import { AuthMiddleware } from '../common/auth.middleware';
-import { AuthModule } from 'src/auth/auth.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
     imports:[ConfigModule, InsuranceModule, AuthModule],
