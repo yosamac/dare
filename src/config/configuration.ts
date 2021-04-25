@@ -9,8 +9,8 @@ export default () => ({
   },
   apis: {
     insurance: {
-      clientId: process.env.CLIENT_ID || 'dare',
-      clientSecret: process.env.CLIENT_SECRET || 's3cr3t'
+      clientId: process.env.CLIENT_ID || 'default',
+      clientSecret: process.env.CLIENT_SECRET || 'default'
     }
   }
 });
