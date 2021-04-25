@@ -1,4 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
+import { hasIn, get, split, flow, cond, stubTrue } from 'lodash/fp';
 
 import { ServiceException } from './service.exception';
 import { ServiceLogger } from '../logger/logger.service';
@@ -37,3 +38,24 @@ export const handleError: (
             handlerHelper(err?.response?.data || err);
         }
     };
+
+const hasAuthorizationHeader = hasIn('headers.authorization');
+const getAuthorizationHeader = get('headers.authorization');
+const splitAuthorizationToken = split(' ');
+const isBearerFormat = (auth: string[]): boolean => auth[0] === 'Bearer';
+
+const getToken = cond([
+    [isBearerFormat, (auth) => auth[1] ],
+    [stubTrue, (auth) => auth[0]]
+]);
+
+const getAuthorizationToken = flow(
+    getAuthorizationHeader,
+    splitAuthorizationToken,
+    getToken
+);
+
+export const getJwt = cond([
+    [hasAuthorizationHeader, getAuthorizationToken],
+    [stubTrue, () => undefined]
+]);
