@@ -22,17 +22,17 @@ export class ClientService {
         logger.setContext(instance.name);
     }
 
-    getAllClients(queryParam: QueryParamDTO): Promise<ClientDTO[]> {
+    getAllClients(queryParam: QueryParamDTO, clientId: string): Promise<ClientDTO[]> {
         this.logger.info('Getting all clients');
 
-        return this.insuranceService.getAllClients()
+        return this.insuranceService.getAllClients(clientId)
             .then(async (clients = []) => {
 
                 if (queryParam.name) {
                     clients = clients.filter(item => item.name == queryParam.name);
                 }
 
-                const policies: [] = await this.insuranceService.getAllPolicies()
+                const policies: [] = await this.insuranceService.getAllPolicies(clientId)
                     .catch(err => handleError(this.logger, err));
 
                 const clientsWithPolicies = clients.map(item => ({
@@ -47,10 +47,10 @@ export class ClientService {
             .catch(err => handleError(this.logger, err));
     }
 
-    getClientById(id: string): Promise<ClientDTO> {
+    getClientById(id: string, clientId: string): Promise<ClientDTO> {
         this.logger.info(`Getting client data for: ${id}`);
 
-        return this.insuranceService.getAllClients()
+        return this.insuranceService.getAllClients(clientId)
             .then(async (clients = []) => {
 
                 const client = clients.find(item => item.id == id);
@@ -61,7 +61,7 @@ export class ClientService {
                         'Client not found'
                     );
                 }
-                const policies: [] = await this.insuranceService.getAllPolicies()
+                const policies: [] = await this.insuranceService.getAllPolicies(clientId)
                     .catch(err => handleError(this.logger, err));
 
                 client.policies = this.findPoliciesForEmail(client.email, policies);
@@ -70,9 +70,9 @@ export class ClientService {
             .catch(err => handleError(this.logger, err));
     }
 
-    getPoliciesByClientId(id: string): Promise<PolicyDTO[]> {
+    getPoliciesByClientId(id: string, clientId: string): Promise<PolicyDTO[]> {
         this.logger.info(`Getting policies for: ${id}`);
-        return this.getClientById(id).then(res => res.policies);
+        return this.getClientById(id, clientId).then(res => res.policies);
     }
 
     private findPoliciesForEmail(email: string, policies: any[]): any[] {

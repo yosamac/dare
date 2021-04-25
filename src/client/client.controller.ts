@@ -1,14 +1,15 @@
 import {
     Controller, UseFilters,
     Get, Query, HttpStatus,
-    HttpCode, Param
+    HttpCode, Param, UseGuards, Req
 } from '@nestjs/common';
-import { ApiResponse, ApiTags, } from '@nestjs/swagger';
+import { ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 import { ClientService } from './client.service';
 import { ClientDTO } from './dto/client.dto';
 import { QueryParamDTO , QueryParamPipe } from './dto/request/queryParam.dto';
 import { IdDTO, IdPipe } from '../common/dtos/id.dto';
+import { AuthGuard } from '../common/auth.guard';
 
 import {
     ServiceHttpResponse,
@@ -18,6 +19,8 @@ import { PolicyDTO } from '../common/dtos/policy.dto';
 
 @Controller('/clients')
 @ApiTags('Clients')
+@ApiBearerAuth()
+@UseGuards(AuthGuard)
 @UseFilters(HttpExceptionFilter)
 export class ClientController {
     constructor(private readonly clientService: ClientService) {}
@@ -26,7 +29,7 @@ export class ClientController {
     @HttpCode(HttpStatus.OK)
     @ApiResponse({
         status: HttpStatus.OK,
-        description: 'The  was successfully created',
+        description: 'The clients were successfully returned',
         type: ClientDTO,
         isArray: true
     })
@@ -40,10 +43,11 @@ export class ClientController {
         description: 'Internal error',
         type: ServiceHttpResponse
     })
-    getPolicies(
-        @Query(QueryParamPipe) queryParam: QueryParamDTO
+    getClients(
+        @Query(QueryParamPipe) queryParam: QueryParamDTO,
+        @Req() req
     ): Promise<ClientDTO[]> {
-        return this.clientService.getAllClients(queryParam);
+        return this.clientService.getAllClients(queryParam, req.clientId);
     }
 
     @Get('/:id')
@@ -63,17 +67,18 @@ export class ClientController {
         description: 'Internal error',
         type: ServiceHttpResponse
     })
-    getPolicy(
-        @Param(IdPipe) param: IdDTO
+    getClient(
+        @Param(IdPipe) param: IdDTO,
+        @Req() req
     ): Promise<ClientDTO> {
-        return this.clientService.getClientById(param.id);
+        return this.clientService.getClientById(param.id, req.clientId);
     }
 
     @Get('/:id/policies')
     @HttpCode(HttpStatus.OK)
     @ApiResponse({
         status: HttpStatus.OK,
-        description: 'The client was successfully returned',
+        description: 'The policies were successfully returned',
         type: PolicyDTO,
         isArray: true
     })
@@ -93,8 +98,9 @@ export class ClientController {
         type: ServiceHttpResponse
     })
     getPoliciesByClientId(
-        @Param(IdPipe) param: IdDTO
+        @Param(IdPipe) param: IdDTO,
+        @Req() req
     ): Promise<PolicyDTO[]> {
-        return this.clientService.getPoliciesByClientId(param.id);
+        return this.clientService.getPoliciesByClientId(param.id, req.clientId);
     }
 }
