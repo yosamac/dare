@@ -1,9 +1,9 @@
-import { HttpModule, Module } from '@nestjs/common';
+import { HttpModule, Module,CacheModule } from '@nestjs/common';
 
 import { InsuranceService } from './insurance.service';
 
 @Module({
-    imports: [HttpModule],
+    imports: [HttpModule, CacheModule.register(),],
     providers: [InsuranceService],
     exports: [InsuranceService]
 })
