@@ -24,12 +24,16 @@ export class AuthService {
 
         return this.insuranceService.login(toOAuthDTO(credentials))
             .then(res => {
-                const decoded = jwt.decode(res.token);
+                const decoded = this.decodeJwt(res.token);
                 return toAuthResponseDTO({
                     ...res,
                     expiresIn: decoded.exp
                 });
             })
             .catch(err => handleError(this.logger, err));
+    }
+
+    decodeJwt(token: string): any {
+        return jwt.decode(token);
     }
 }

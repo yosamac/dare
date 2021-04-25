@@ -8,6 +8,7 @@ import { InsuranceModule } from '../apis/insurance';
 @Module({
     imports:[ConfigModule, InsuranceModule],
     controllers: [AuthController],
-    providers: [AuthService]
+    providers: [AuthService],
+    exports: [AuthService]
 })
 export class AuthModule {}
