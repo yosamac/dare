@@ -17,7 +17,6 @@ import { ClientModule } from './client/client.module';
         AuthModule,
         PolicyModule,
         ClientModule,
-
     ]
 })
 export class MainModule {}

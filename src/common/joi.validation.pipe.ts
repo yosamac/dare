@@ -1,5 +1,7 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { ObjectSchema } from 'joi';
+
+import { ServiceException } from './service.exception';
 
 @Injectable()
 export class JoiValidationPipe {
@@ -18,9 +20,9 @@ export class JoiValidationPipe {
         const { error } = this.schema.validate(value);
 
         if (error) {
-            throw new HttpException(
-                `${ error.message.replace(/"/g, '\'') }`,
+            throw new ServiceException(
                 HttpStatus.BAD_REQUEST,
+                `${ error.message.replace(/"/g, '\'') }`,
             );
         }
         return value;
