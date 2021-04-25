@@ -1,13 +1,21 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { PolicyController } from './policy.controller';
 import { PolicyService } from './policy.service';
 import { InsuranceModule } from '../apis/insurance';
+import { AuthMiddleware } from '../common/auth.middleware';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-    imports:[ConfigModule, InsuranceModule],
+    imports:[ConfigModule, InsuranceModule, AuthModule],
     controllers: [PolicyController],
     providers: [PolicyService]
 })
-export class PolicyModule {}
+export class PolicyModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(AuthMiddleware)
+            .forRoutes(PolicyController);
+    }
+}

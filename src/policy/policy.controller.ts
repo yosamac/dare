@@ -1,14 +1,15 @@
 import {
     Controller, UseFilters,
     Get, Query, HttpStatus,
-    HttpCode, Param
+    HttpCode, Param, UseGuards, Req
 } from '@nestjs/common';
-import { ApiResponse, ApiTags, } from '@nestjs/swagger';
+import { ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 import { PolicyService } from './policy.service';
 import { PolicyDTO } from '../common/dtos/policy.dto';
 import { QueryParamDTO , QueryParamPipe } from './dto/request/queryParam.dto';
 import { IdDTO, IdPipe } from '../common/dtos/id.dto';
+import { AuthGuard } from '../common/auth.guard';
 
 import {
     ServiceHttpResponse,
@@ -17,6 +18,8 @@ import {
 
 @Controller('/policies')
 @ApiTags('Policies')
+@ApiBearerAuth()
+@UseGuards(AuthGuard)
 @UseFilters(HttpExceptionFilter)
 export class PolicyController {
     constructor(private readonly policyService: PolicyService) {}
@@ -25,7 +28,7 @@ export class PolicyController {
     @HttpCode(HttpStatus.OK)
     @ApiResponse({
         status: HttpStatus.OK,
-        description: 'The login was successfully created',
+        description: 'The policies were successfully returned',
         type: PolicyDTO,
         isArray: true
     })
@@ -40,22 +43,33 @@ export class PolicyController {
         type: ServiceHttpResponse
     })
     getPolicies(
-        @Query(QueryParamPipe) queryParam: QueryParamDTO
+        @Query(QueryParamPipe) queryParam: QueryParamDTO,
+        @Req() req
     ): Promise<PolicyDTO[]> {
-        return this.policyService.getAllPolicies(queryParam);
+        return this.policyService.getAllPolicies(queryParam, req.clientId);
     }
 
     @Get('/:id')
     @HttpCode(HttpStatus.OK)
     @ApiResponse({
         status: HttpStatus.OK,
-        description: 'The login was successfully created',
+        description: 'The policy was successfully returned',
         type: PolicyDTO,
         isArray: true
     })
     @ApiResponse({
         status: HttpStatus.UNAUTHORIZED,
-        description: 'Unauthorized',
+        description: 'Unauthorized error',
+        type: ServiceHttpResponse
+    })
+    @ApiResponse({
+        status: HttpStatus.FORBIDDEN,
+        description: 'Forbidden error',
+        type: ServiceHttpResponse
+    })
+    @ApiResponse({
+        status: HttpStatus.NOT_FOUND,
+        description: 'Policy not found',
         type: ServiceHttpResponse
     })
     @ApiResponse({
@@ -64,8 +78,9 @@ export class PolicyController {
         type: ServiceHttpResponse
     })
     getPolicy(
-        @Param(IdPipe) param: IdDTO
+        @Param(IdPipe) param: IdDTO,
+        @Req() req
     ): Promise<PolicyDTO> {
-        return this.policyService.getPolicyById(param.id);
+        return this.policyService.getPolicyById(param.id, req.clientId);
     }
 }

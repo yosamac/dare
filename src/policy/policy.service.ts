@@ -21,10 +21,10 @@ export class PolicyService {
         logger.setContext(instance.name);
     }
 
-    getAllPolicies(queryParam: QueryParamDTO): Promise<PolicyDTO[]> {
+    getAllPolicies(queryParam: QueryParamDTO, clientId: string): Promise<PolicyDTO[]> {
         this.logger.info('Getting all policies');
 
-        return this.insuranceService.getAllPolicies()
+        return this.insuranceService.getAllPolicies(clientId)
             .then((policies = []) => {
 
                 return toPolicyListDTO(
@@ -34,10 +34,10 @@ export class PolicyService {
             .catch(err => handleError(this.logger, err));
     }
 
-    getPolicyById(id: string): Promise<PolicyDTO> {
+    getPolicyById(id: string, clientId:string): Promise<PolicyDTO> {
         this.logger.info(`Getting policy for: ${id}`);
 
-        return this.insuranceService.getAllPolicies()
+        return this.insuranceService.getAllPolicies(clientId)
             .then((policies = []) => {
 
                 const policy = policies.find(item => item.id == id);

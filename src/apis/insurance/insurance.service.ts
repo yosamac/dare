@@ -46,9 +46,9 @@ export class InsuranceService {
         });
     }
 
-    getAllPolicies(): Promise<any> {
+    getAllPolicies(clientId?: string): Promise<any> {
 
-        return this.cacheManager.get(this.credentials.client_id)
+        return this.cacheManager.get(clientId)
             .then(async token => {
                 let authorization = token;
                 if (!token){
