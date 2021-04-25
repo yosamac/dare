@@ -46,6 +46,9 @@ The API can be used with the path:
 | ENDPOINT_ROUTE          | Global URL prefix                          | NO DEFAULT VALUE             |
 | NODE_ENV                | Production or development mode             | `development`                |
 | LOGGING_LEVEL           | Logs level                                 | `INFO`                       |
+| **Auth Section**                                                                                  |||
+| CLIENT_ID               | API client Id                              | default_id                   |
+| CLIENT_SECRET           | API client secret                          | default_secret               |
 
 
 ## Running the tests
